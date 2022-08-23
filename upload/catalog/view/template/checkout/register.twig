@@ -562,6 +562,7 @@ $('#form-register').on('submit', function (e) {
 
                 if (json['redirect']) {
                     location = json['redirect'];
+                    return;
                 }
 
                 if (json['error']) {
@@ -573,6 +574,7 @@ $('#form-register').on('submit', function (e) {
                         $('#input-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
                         $('#error-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
                     }
+                    return;
                 }
 
                 if (json['success']) {
@@ -585,13 +587,13 @@ $('#form-register').on('submit', function (e) {
                         $('#input-captcha').prop('disabled', true);
                         $('#input-register-agree').prop('disabled', true);
                     }
-
-                  {% if shipping_required %}
-                    $('#button-shipping-method').trigger('click');
-                  {% else %}
-                    $('#button-payment-method').trigger('click');
-                  {% endif %}
                 }
+                
+                {% if shipping_required %}
+                  $('#button-shipping-method').trigger('click');
+                {% else %}
+                  $('#button-payment-method').trigger('click');
+                {% endif %}
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
